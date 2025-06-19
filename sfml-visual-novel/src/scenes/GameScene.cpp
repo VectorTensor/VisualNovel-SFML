@@ -4,7 +4,6 @@
 #include "../ui/ChoiceUI.hpp"
 #include "../utils/ResourceManager.hpp"
 #include <SFML/Graphics.hpp>
-
 GameScene::GameScene() {
     isPaused = false;
 }
@@ -69,9 +68,11 @@ void GameScene::setupUI() {
     pauseMenu.init();
     
     // Setup pause button
-    pauseButton = Button(font, "||", 18); // Pause symbol
+    pauseButton.setText("||"); // Pause symbol
+    pauseButton.setFont(font);
     pauseButton.setSize(50, 40); // Smaller size for pause button
-    pauseButton.setPosition(730, 20); // Top-right corner but within bounds
+    pauseButton.setPosition(740, 10); // Top-right corner with 10px margin
+    pauseButton.loadTexture("assets/ButtonsIcons/IconButton_Large_Blue_Circle.png");
 }
 
 void GameScene::update(float deltaTime, sf::RenderWindow& window) {
@@ -103,6 +104,7 @@ void GameScene::update(float deltaTime, sf::RenderWindow& window) {
 
 void GameScene::render(sf::RenderWindow& window) {
     window.draw(backgroundSprite);
+    
     characterImage.render(window);
     dialogueBox.render(window);
     

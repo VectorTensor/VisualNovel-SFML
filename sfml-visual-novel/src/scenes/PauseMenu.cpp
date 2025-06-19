@@ -15,18 +15,23 @@ void PauseMenu::init() {
 
 void PauseMenu::setFont(const sf::Font& pauseFont) {
     font = pauseFont;
+    resumeButton.setText("Resume");
     resumeButton.setFont(font);
+    quitButton.setText("Quit");
     quitButton.setFont(font);
     setupButtons(); // Re-setup buttons after font is set
 }
 
 void PauseMenu::setupButtons() {
-    // Create buttons with the current font if available
-    resumeButton = Button(font, "Resume", 24);
-    resumeButton.setPosition(300, 250); // Centered better (800/2 - 100 = 300)
+    // Center buttons properly (assuming 800px window width and 200px button width)
+    float centerX = (800 - 200) / 2; // Center position for 200px wide buttons
     
-    quitButton = Button(font, "Quit", 24);
-    quitButton.setPosition(300, 320); // Maintain 70px spacing
+    resumeButton.setPosition(centerX, 250);
+    quitButton.setPosition(centerX, 320);
+    
+    // Load textures for buttons
+    resumeButton.loadTexture();
+    quitButton.loadTexture();
 }
 
 void PauseMenu::update(float deltaTime, sf::RenderWindow& window) {

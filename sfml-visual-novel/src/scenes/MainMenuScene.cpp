@@ -23,7 +23,10 @@ bool MainMenuScene::init() {
     title.setString("No You Na");
     title.setCharacterSize(48);
     title.setFillColor(sf::Color::White);
-    title.setPosition(300, 100);
+    
+    // Center the title properly
+    sf::FloatRect titleBounds = title.getLocalBounds();
+    title.setPosition((800 - titleBounds.width) / 2 - titleBounds.left, 100);
     
     // Try to load background
     if (!backgroundTexture.loadFromFile("assets/backgrounds/main_menu.png")) {
@@ -46,17 +49,32 @@ bool MainMenuScene::init() {
 }
 
 void MainMenuScene::setupButtons() {
-    newGameButton = Button(font, "New Game", 24);
-    newGameButton.setPosition(350, 200);
+    // Configure buttons with font and text (avoiding double initialization)
+    newGameButton.setText("New Game");
+    newGameButton.setFont(font);
     
-    loadGameButton = Button(font, "Load Game", 24);
-    loadGameButton.setPosition(350, 270);
+    loadGameButton.setText("Load Game");
+    loadGameButton.setFont(font);
     
-    settingsButton = Button(font, "Settings", 24);
-    settingsButton.setPosition(350, 340);
+    settingsButton.setText("Settings");
+    settingsButton.setFont(font);
     
-    quitButton = Button(font, "Quit", 24);
-    quitButton.setPosition(350, 410);
+    quitButton.setText("Quit");
+    quitButton.setFont(font);
+    
+    // Center buttons better (assuming 800px window width and 200px button width)
+    float centerX = (800 - 200) / 2; // Center position for 200px wide buttons
+    
+    newGameButton.setPosition(centerX, 200);
+    loadGameButton.setPosition(centerX, 270);
+    settingsButton.setPosition(centerX, 340);
+    quitButton.setPosition(centerX, 410);
+    
+    // Load textures for all buttons with specific styles
+    newGameButton.loadTexture("assets/ButtonsIcons/IconButton_Large_Blue_Rounded.png");
+    loadGameButton.loadTexture("assets/ButtonsIcons/IconButton_Large_Green_Rounded.png");
+    settingsButton.loadTexture("assets/ButtonsIcons/IconButton_Large_Orange_Rounded.png");
+    quitButton.loadTexture("assets/ButtonsIcons/IconButton_Large_Red_Rounded.png");
 }
 
 void MainMenuScene::update(sf::RenderWindow& window, float deltaTime) {

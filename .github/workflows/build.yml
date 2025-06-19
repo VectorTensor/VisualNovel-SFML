@@ -19,20 +19,16 @@ jobs:
         ls -la
         pwd
 
-    - name: Navigate to project directory
-      run: |
-        cd sfml-visual-novel
-        ls -la
-
     - name: Install SFML and dependencies
       run: |
         sudo apt-get update
         sudo apt-get install -y cmake g++ libsfml-dev
 
+    - name: Clean build directory if it exists
+      run: rm -rf build || true
+
     - name: Configure CMake
-      working-directory: ./sfml-visual-novel
       run: cmake -B build -DCMAKE_BUILD_TYPE=Release
 
     - name: Build
-      working-directory: ./sfml-visual-novel
       run: cmake --build build --config Release

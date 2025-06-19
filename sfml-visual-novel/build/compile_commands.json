@@ -1,0 +1,47 @@
+[
+{
+  "directory": "/home/prayash/dev/games/visual_novel/sfml-visual-novel/build",
+  "command": "/usr/bin/c++  -I/usr/include/SFML -I/home/prayash/dev/games/visual_novel/sfml-visual-novel/src  -o CMakeFiles/SFMLVisualNovel.dir/src/main.cpp.o -c /home/prayash/dev/games/visual_novel/sfml-visual-novel/src/main.cpp",
+  "file": "/home/prayash/dev/games/visual_novel/sfml-visual-novel/src/main.cpp"
+},
+{
+  "directory": "/home/prayash/dev/games/visual_novel/sfml-visual-novel/build",
+  "command": "/usr/bin/c++  -I/usr/include/SFML -I/home/prayash/dev/games/visual_novel/sfml-visual-novel/src  -o CMakeFiles/SFMLVisualNovel.dir/src/scenes/MainMenuScene.cpp.o -c /home/prayash/dev/games/visual_novel/sfml-visual-novel/src/scenes/MainMenuScene.cpp",
+  "file": "/home/prayash/dev/games/visual_novel/sfml-visual-novel/src/scenes/MainMenuScene.cpp"
+},
+{
+  "directory": "/home/prayash/dev/games/visual_novel/sfml-visual-novel/build",
+  "command": "/usr/bin/c++  -I/usr/include/SFML -I/home/prayash/dev/games/visual_novel/sfml-visual-novel/src  -o CMakeFiles/SFMLVisualNovel.dir/src/scenes/GameScene.cpp.o -c /home/prayash/dev/games/visual_novel/sfml-visual-novel/src/scenes/GameScene.cpp",
+  "file": "/home/prayash/dev/games/visual_novel/sfml-visual-novel/src/scenes/GameScene.cpp"
+},
+{
+  "directory": "/home/prayash/dev/games/visual_novel/sfml-visual-novel/build",
+  "command": "/usr/bin/c++  -I/usr/include/SFML -I/home/prayash/dev/games/visual_novel/sfml-visual-novel/src  -o CMakeFiles/SFMLVisualNovel.dir/src/scenes/PauseMenu.cpp.o -c /home/prayash/dev/games/visual_novel/sfml-visual-novel/src/scenes/PauseMenu.cpp",
+  "file": "/home/prayash/dev/games/visual_novel/sfml-visual-novel/src/scenes/PauseMenu.cpp"
+},
+{
+  "directory": "/home/prayash/dev/games/visual_novel/sfml-visual-novel/build",
+  "command": "/usr/bin/c++  -I/usr/include/SFML -I/home/prayash/dev/games/visual_novel/sfml-visual-novel/src  -o CMakeFiles/SFMLVisualNovel.dir/src/ui/Button.cpp.o -c /home/prayash/dev/games/visual_novel/sfml-visual-novel/src/ui/Button.cpp",
+  "file": "/home/prayash/dev/games/visual_novel/sfml-visual-novel/src/ui/Button.cpp"
+},
+{
+  "directory": "/home/prayash/dev/games/visual_novel/sfml-visual-novel/build",
+  "command": "/usr/bin/c++  -I/usr/include/SFML -I/home/prayash/dev/games/visual_novel/sfml-visual-novel/src  -o CMakeFiles/SFMLVisualNovel.dir/src/ui/DialogueBox.cpp.o -c /home/prayash/dev/games/visual_novel/sfml-visual-novel/src/ui/DialogueBox.cpp",
+  "file": "/home/prayash/dev/games/visual_novel/sfml-visual-novel/src/ui/DialogueBox.cpp"
+},
+{
+  "directory": "/home/prayash/dev/games/visual_novel/sfml-visual-novel/build",
+  "command": "/usr/bin/c++  -I/usr/include/SFML -I/home/prayash/dev/games/visual_novel/sfml-visual-novel/src  -o CMakeFiles/SFMLVisualNovel.dir/src/ui/CharacterImage.cpp.o -c /home/prayash/dev/games/visual_novel/sfml-visual-novel/src/ui/CharacterImage.cpp",
+  "file": "/home/prayash/dev/games/visual_novel/sfml-visual-novel/src/ui/CharacterImage.cpp"
+},
+{
+  "directory": "/home/prayash/dev/games/visual_novel/sfml-visual-novel/build",
+  "command": "/usr/bin/c++  -I/usr/include/SFML -I/home/prayash/dev/games/visual_novel/sfml-visual-novel/src  -o CMakeFiles/SFMLVisualNovel.dir/src/ui/ChoiceUI.cpp.o -c /home/prayash/dev/games/visual_novel/sfml-visual-novel/src/ui/ChoiceUI.cpp",
+  "file": "/home/prayash/dev/games/visual_novel/sfml-visual-novel/src/ui/ChoiceUI.cpp"
+},
+{
+  "directory": "/home/prayash/dev/games/visual_novel/sfml-visual-novel/build",
+  "command": "/usr/bin/c++  -I/usr/include/SFML -I/home/prayash/dev/games/visual_novel/sfml-visual-novel/src  -o CMakeFiles/SFMLVisualNovel.dir/src/utils/ResourceManager.cpp.o -c /home/prayash/dev/games/visual_novel/sfml-visual-novel/src/utils/ResourceManager.cpp",
+  "file": "/home/prayash/dev/games/visual_novel/sfml-visual-novel/src/utils/ResourceManager.cpp"
+}
+]

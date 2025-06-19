@@ -1,0 +1,3 @@
+/home/prayash/dev/games/visual_novel/sfml-visual-novel/build/CMakeFiles/SFMLVisualNovel.dir
+/home/prayash/dev/games/visual_novel/sfml-visual-novel/build/CMakeFiles/edit_cache.dir
+/home/prayash/dev/games/visual_novel/sfml-visual-novel/build/CMakeFiles/rebuild_cache.dir

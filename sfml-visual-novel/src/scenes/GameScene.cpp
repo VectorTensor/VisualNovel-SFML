@@ -6,6 +6,7 @@
 #include <SFML/Graphics.hpp>
 GameScene::GameScene() {
     isPaused = false;
+    returnToMainMenu = false;
 }
 
 GameScene::~GameScene() {
@@ -95,6 +96,13 @@ void GameScene::update(float deltaTime, sf::RenderWindow& window) {
         }
     } else {
         pauseMenu.update(deltaTime, window);
+
+        // Check if main menu was requested
+        if (pauseMenu.isMainMenuRequested()) {
+            returnToMainMenu = true;
+            pauseMenu.resetMainMenuRequest();
+        }
+
         // Check if pause menu wants to resume
         if (!pauseMenu.isActive()) {
             isPaused = false;
@@ -138,4 +146,12 @@ void GameScene::handleEvent(const sf::Event& event) {
             }
         }
     }
+}
+
+bool GameScene::shouldReturnToMainMenu() const {
+    return returnToMainMenu;
+}
+
+void GameScene::resetMainMenuRequest() {
+    returnToMainMenu = false;
 }

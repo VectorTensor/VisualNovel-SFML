@@ -2,7 +2,8 @@
 
 PauseMenu::PauseMenu() {
     active = false;
-    
+    mainMenuRequested = false;
+
     // Set up background
     background.setSize(sf::Vector2f(800, 600));
     background.setFillColor(sf::Color(0, 0, 0, 150));
@@ -17,6 +18,8 @@ void PauseMenu::setFont(const sf::Font& pauseFont) {
     font = pauseFont;
     resumeButton.setText("Resume");
     resumeButton.setFont(font);
+    mainMenuButton.setText("Main Menu");
+    mainMenuButton.setFont(font);
     quitButton.setText("Quit");
     quitButton.setFont(font);
     setupButtons(); // Re-setup buttons after font is set
@@ -27,10 +30,12 @@ void PauseMenu::setupButtons() {
     float centerX = (800 - 200) / 2; // Center position for 200px wide buttons
     
     resumeButton.setPosition(centerX, 250);
-    quitButton.setPosition(centerX, 320);
-    
+    mainMenuButton.setPosition(centerX, 320);
+    quitButton.setPosition(centerX, 390);
+
     // Load textures for buttons
     resumeButton.loadTexture();
+    mainMenuButton.loadTexture();
     quitButton.loadTexture();
 }
 
@@ -42,10 +47,14 @@ void PauseMenu::update(float deltaTime, sf::RenderWindow& window) {
     
     // Update buttons for hover animations
     resumeButton.update(deltaTime, mousePosF);
+    mainMenuButton.update(deltaTime, mousePosF);
     quitButton.update(deltaTime, mousePosF);
     
     if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
         if (resumeButton.isClicked(mousePosF)) {
+            setActive(false);
+        } else if (mainMenuButton.isClicked(mousePosF)) {
+            mainMenuRequested = true;
             setActive(false);
         } else if (quitButton.isClicked(mousePosF)) {
             window.close();
@@ -58,6 +67,7 @@ void PauseMenu::render(sf::RenderWindow& window) {
     
     window.draw(background);
     resumeButton.render(window);
+    mainMenuButton.render(window);
     quitButton.render(window);
 }
 
@@ -67,4 +77,12 @@ bool PauseMenu::isActive() const {
 
 void PauseMenu::setActive(bool isActive) {
     active = isActive;
+}
+
+bool PauseMenu::isMainMenuRequested() const {
+    return mainMenuRequested;
+}
+
+void PauseMenu::resetMainMenuRequest() {
+    mainMenuRequested = false;
 }

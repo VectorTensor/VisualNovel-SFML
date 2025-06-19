@@ -13,12 +13,16 @@ public:
     void render(sf::RenderWindow& window);
     bool isActive() const;
     void setActive(bool active);
+    bool isMainMenuRequested() const;
+    void resetMainMenuRequest();
 
 private:
     bool active;
+    bool mainMenuRequested;
     sf::RectangleShape background;
     sf::Font font;
     Button resumeButton;
+    Button mainMenuButton;
     Button quitButton;
     void setupButtons();
 };

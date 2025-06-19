@@ -70,6 +70,12 @@ int main() {
         }
         else if (currentState == GameState::InGame) {
             gameScene.update(deltaTime, window);
+
+            // Check if game scene requested to return to main menu
+            if (gameScene.shouldReturnToMainMenu()) {
+                currentState = GameState::MainMenu;
+                gameScene.resetMainMenuRequest();
+            }
         }
 
         // Render current scene

@@ -16,6 +16,8 @@ public:
     void update(float deltaTime, sf::RenderWindow& window);
     void render(sf::RenderWindow& window);
     void handleEvent(const sf::Event& event);
+    bool shouldReturnToMainMenu() const;
+    void resetMainMenuRequest();
 
 private:
     sf::Texture backgroundTexture;
@@ -27,6 +29,7 @@ private:
     PauseMenu pauseMenu;
     Button pauseButton;
     bool isPaused;
+    bool returnToMainMenu;
 
     bool loadResources();
     void setupUI();

@@ -29,6 +29,9 @@ jobs:
         cd sfml-visual-novel
         ls -la
 
+    - name: install yaml-cpp
+      run: sudo apt-get install libyaml-cpp-dev
+
     - name: Clean build directory if it exists
       working-directory: ./sfml-visual-novel
       run: rm -rf build || true

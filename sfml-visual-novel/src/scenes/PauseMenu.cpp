@@ -42,24 +42,18 @@ void PauseMenu::setupButtons() {
 void PauseMenu::update(float deltaTime, sf::RenderWindow& window) {
     if (!active) return;
     
+    // Get proper mouse coordinates that account for viewport transformation
     sf::Vector2i mousePos = sf::Mouse::getPosition(window);
-    sf::Vector2f mousePosF(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y));
-    
+    sf::Vector2f mousePosF = window.mapPixelToCoords(mousePos);
+
     // Update buttons for hover animations
     resumeButton.update(deltaTime, mousePosF);
     mainMenuButton.update(deltaTime, mousePosF);
     quitButton.update(deltaTime, mousePosF);
     
-    if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-        if (resumeButton.isClicked(mousePosF)) {
-            setActive(false);
-        } else if (mainMenuButton.isClicked(mousePosF)) {
-            mainMenuRequested = true;
-            setActive(false);
-        } else if (quitButton.isClicked(mousePosF)) {
-            window.close();
-        }
-    }
+    // NOTE: We're no longer handling button clicks here
+    // Instead, we're letting GameScene's mouseClickHandle method handle them
+    // This is part of our scene-based click handling system
 }
 
 void PauseMenu::render(sf::RenderWindow& window) {
@@ -85,4 +79,14 @@ bool PauseMenu::isMainMenuRequested() const {
 
 void PauseMenu::resetMainMenuRequest() {
     mainMenuRequested = false;
+}
+
+bool PauseMenu::isMainMenuButtonClicked(const sf::Vector2f& mousePos) const {
+    if (!active) return false;
+    return mainMenuButton.isClicked(mousePos);
+}
+
+bool PauseMenu::isQuitButtonClicked(const sf::Vector2f& mousePos) const {
+    if (!active) return false;
+    return quitButton.isClicked(mousePos);
 }

@@ -16,6 +16,7 @@ public:
     void update(sf::RenderWindow& window);
     void render(sf::RenderWindow& window);
     int getSelectedChoice() const;
+    std::string getChoiceText(int index) const;
 
 private:
     std::vector<Button> choices;

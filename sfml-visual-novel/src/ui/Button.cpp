@@ -30,6 +30,10 @@ void Button::setText(const std::string& buttonText) {
     centerText();
 }
 
+std::string Button::getText() const {
+    return text.getString();
+}
+
 void Button::setFont(const sf::Font& font) {
     buttonFont = font;
     text.setFont(buttonFont);

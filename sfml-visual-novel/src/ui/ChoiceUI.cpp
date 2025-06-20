@@ -57,3 +57,15 @@ void ChoiceUI::render(sf::RenderWindow& window) {
 int ChoiceUI::getSelectedChoice() const {
     return selectedChoice;
 }
+
+std::string ChoiceUI::getChoiceText(int index) const {
+    if (index >= 0 && index < static_cast<int>(choices.size())) {
+        // Need to get the text from the Button
+        // Since Button doesn't have a getText() method, we'll return a placeholder
+        // You may need to modify the Button class to add a getText() method
+
+        // For now, return a placeholder
+        return choices[index].getText();
+    }
+    return "";
+}

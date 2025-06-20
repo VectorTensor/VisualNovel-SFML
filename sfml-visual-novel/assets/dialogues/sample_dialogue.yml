@@ -1,0 +1,50 @@
+---
+# Sample Dialogue File for SFML Visual Novel
+name: "First Scene"
+
+dialogue:
+  - speaker: "Narrator"
+    text: "It was a bright and sunny morning in the quiet town."
+    image: ""
+    position: "center"
+
+  - speaker: "Miyuki"
+    text: "Good morning! What a beautiful day today!"
+    image: "assets/characters/miyuki_happy.png"
+    position: "left"
+    emotion: "happy"
+
+  - speaker: "Takashi"
+    text: "Indeed. I've been waiting for weather like this for weeks."
+    image: "assets/characters/takashi_neutral.png"
+    position: "right"
+    emotion: "neutral"
+
+  - speaker: "Miyuki"
+    text: "What do you want to do today?"
+    image: "assets/characters/miyuki_curious.png"
+    position: "left"
+    emotion: "curious"
+    choices:
+      - text: "Let's go to the park."
+        goto: 4
+      - text: "How about visiting the cafe?"
+        goto: 5
+
+  - speaker: "Takashi"
+    text: "The park sounds great. We could enjoy the cherry blossoms."
+    image: "assets/characters/takashi_smile.png"
+    position: "right"
+    emotion: "happy"
+
+  - speaker: "Takashi"
+    text: "The cafe is a good idea. I heard they have a special today."
+    image: "assets/characters/takashi_smile.png"
+    position: "right"
+    emotion: "happy"
+
+  - speaker: "Miyuki"
+    text: "Then it's settled! Let's go!"
+    image: "assets/characters/miyuki_excited.png"
+    position: "left"
+    emotion: "excited"

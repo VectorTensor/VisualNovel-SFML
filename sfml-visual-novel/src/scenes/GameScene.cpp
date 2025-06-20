@@ -3,10 +3,13 @@
 #include "../ui/CharacterImage.hpp"
 #include "../ui/ChoiceUI.hpp"
 #include "../utils/ResourceManager.hpp"
+#include "../utils/DialogueManager.hpp"
 #include <SFML/Graphics.hpp>
+
 GameScene::GameScene() {
     isPaused = false;
     returnToMainMenu = false;
+    dialogueActive = false;
 }
 
 GameScene::~GameScene() {
@@ -18,6 +21,14 @@ bool GameScene::init() {
         return false;
     }
     setupUI();
+
+    // Load initial dialogue if available
+    if (!loadDialogue("../assets/dialogues/sample_dialogue.yml")) {
+        // If no dialogue file found, provide a default message
+        dialogueBox.setText("No dialogue file found. This is a placeholder.");
+        dialogueBox.setSpeaker("System");
+    }
+
     return true;
 }
 
@@ -74,13 +85,16 @@ void GameScene::setupUI() {
     pauseButton.setSize(50, 40); // Smaller size for pause button
     pauseButton.setPosition(740, 10); // Top-right corner with 10px margin
     pauseButton.loadTexture("assets/ButtonsIcons/IconButton_Large_Blue_Circle.png");
+
+    // Set up character image initial position
+    characterImage.setPosition(400, 200); // Center of screen, adjust as needed
 }
 
 void GameScene::update(float deltaTime, sf::RenderWindow& window) {
-    // Get mouse position for button hover effects
+    // Get mouse position and convert to world coordinates
     sf::Vector2i mousePos = sf::Mouse::getPosition(window);
-    sf::Vector2f mousePosF(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y));
-    
+    sf::Vector2f mousePosF = window.mapPixelToCoords(mousePos);
+
     // Always update pause button for hover effects
     pauseButton.update(deltaTime, mousePosF);
     
@@ -88,11 +102,14 @@ void GameScene::update(float deltaTime, sf::RenderWindow& window) {
         dialogueBox.update(deltaTime);
         choiceUI.update(window);
         
-        // Check for choice selection
+        // Check for choice selection if we're at a choice point
         int selectedChoice = choiceUI.getSelectedChoice();
-        if (selectedChoice >= 0) {
-            // Handle choice selection
+        if (selectedChoice >= 0 && dialogueManager.isAtChoicePoint()) {
+            // Get the choice text and pass it to dialogue manager
+            std::string choiceText = choiceUI.getChoiceText(selectedChoice);
+            dialogueManager.selectChoice(choiceText);
             choiceUI.clearChoices();
+            updateDialogueDisplay(); // Update the dialogue with the new entry
         }
     } else {
         pauseMenu.update(deltaTime, window);
@@ -113,11 +130,18 @@ void GameScene::update(float deltaTime, sf::RenderWindow& window) {
 void GameScene::render(sf::RenderWindow& window) {
     window.draw(backgroundSprite);
     
-    characterImage.render(window);
+    // Only render character image if dialogue is active
+    if (dialogueActive) {
+        characterImage.render(window);
+    }
+
     dialogueBox.render(window);
     
     if (!isPaused) {
-        choiceUI.render(window);
+        // Show choices if at a choice point
+        if (dialogueManager.isAtChoicePoint()) {
+            choiceUI.render(window);
+        }
     } else {
         pauseMenu.render(window);
     }
@@ -132,26 +156,110 @@ void GameScene::handleEvent(const sf::Event& event) {
             isPaused = !isPaused;
             pauseMenu.setActive(isPaused);
         }
-    }
-    
-    // Handle pause button click
-    if (event.type == sf::Event::MouseButtonPressed) {
-        if (event.mouseButton.button == sf::Mouse::Left) {
-            sf::Vector2f mousePos(static_cast<float>(event.mouseButton.x), 
-                                 static_cast<float>(event.mouseButton.y));
-            
-            if (pauseButton.isClicked(mousePos)) {
-                isPaused = !isPaused;
-                pauseMenu.setActive(isPaused);
+        else if (!isPaused && event.key.code == sf::Keyboard::Space) {
+            // Space bar advances dialogue when not paused
+            if (dialogueBox.isDialogueComplete()) {
+                advanceDialogue();
+            } else {
+                dialogueBox.skipToEnd();
             }
         }
     }
 }
 
-bool GameScene::shouldReturnToMainMenu() const {
-    return returnToMainMenu;
+GameState GameScene::mouseClickHandle(const sf::Vector2f& mousePos, GameState currentState) {
+    // Handle clicks for the game scene
+    if (isPaused) {
+        // Direct check for Main Menu button click
+        if (pauseMenu.isMainMenuButtonClicked(mousePos)) {
+            isPaused = false;
+            pauseMenu.resetMainMenuRequest();
+            return GameState::MainMenu;
+        }
+
+        // Check for Quit button click
+        if (pauseMenu.isQuitButtonClicked(mousePos)) {
+            return GameState::Quit;
+        }
+
+        // Also handle existing logic for main menu requests
+        if (pauseMenu.isMainMenuRequested()) {
+            isPaused = false;
+            pauseMenu.resetMainMenuRequest();
+            return GameState::MainMenu;
+        }
+
+        // Handle pause button clicks
+        if (pauseButton.isClicked(mousePos)) {
+            isPaused = false;
+            pauseMenu.setActive(false);
+        }
+    } else {
+        // Handle game scene clicks
+        if (pauseButton.isClicked(mousePos)) {
+            isPaused = true;
+            pauseMenu.setActive(true);
+        }
+        else if (dialogueBox.isDialogueComplete()) {
+            // Clicking anywhere advances dialogue when dialogue is complete
+            advanceDialogue();
+        } else {
+            // Clicking the dialogue box when not complete skips to end
+            dialogueBox.skipToEnd();
+        }
+    }
+
+    // Return the current state if nothing changes
+    return currentState;
 }
 
-void GameScene::resetMainMenuRequest() {
-    returnToMainMenu = false;
+bool GameScene::loadDialogue(const std::string& dialogueFile) {
+    if (dialogueManager.loadDialogueFromFile(dialogueFile)) {
+        dialogueActive = true;
+        updateDialogueDisplay();
+        return true;
+    }
+    return false;
+}
+
+void GameScene::advanceDialogue() {
+    if (dialogueManager.advanceDialogue()) {
+        updateDialogueDisplay();
+    } else if (dialogueManager.isDialogueComplete()) {
+        // Handle end of dialogue
+        dialogueActive = false;
+        dialogueBox.setText("End of dialogue");
+        dialogueBox.setSpeaker("");
+    }
+}
+
+void GameScene::updateDialogueDisplay() {
+    // Get current dialogue entry
+    DialogueEntry entry = dialogueManager.getCurrentEntry();
+
+    // Update dialogue box with current entry
+    dialogueBox.setText(entry.text);
+    dialogueBox.setSpeaker(entry.speaker);
+
+    // Update character image if provided
+    if (!entry.characterImage.empty()) {
+        characterImage.loadFromFile(entry.characterImage);
+
+        // Position character based on position parameter
+        if (entry.position == "left") {
+            characterImage.setPosition(200, 200);
+        } else if (entry.position == "right") {
+            characterImage.setPosition(600, 200);
+        } else { // center by default
+            characterImage.setPosition(400, 200);
+        }
+    }
+
+    // Update choices if any
+    if (dialogueManager.isAtChoicePoint()) {
+        choiceUI.clearChoices();
+        for (const auto& choice : entry.choices) {
+            choiceUI.addChoice(choice);
+        }
+    }
 }

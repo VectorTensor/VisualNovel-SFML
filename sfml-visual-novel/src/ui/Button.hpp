@@ -14,6 +14,7 @@ public:
     void setSize(float width, float height);
     void setSize(const sf::Vector2f& size);
     void setText(const std::string& text);
+    std::string getText() const; // New method to retrieve button text
     void setFont(const sf::Font& font);
     void loadTexture(const std::string& texturePath = "");
     bool isClicked(const sf::Vector2f& mousePos) const;

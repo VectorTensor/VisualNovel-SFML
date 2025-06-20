@@ -15,6 +15,8 @@ public:
     void setActive(bool active);
     bool isMainMenuRequested() const;
     void resetMainMenuRequest();
+    bool isMainMenuButtonClicked(const sf::Vector2f& mousePos) const;
+    bool isQuitButtonClicked(const sf::Vector2f& mousePos) const;
 
 private:
     bool active;

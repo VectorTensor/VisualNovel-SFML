@@ -3,6 +3,9 @@ project(SFMLVisualNovel)
 
 set(CMAKE_CXX_STANDARD 17)
 
+# Find packages
+find_package(yaml-cpp REQUIRED)
+
 # Set SFML include and lib paths manually
 include_directories(/usr/include/SFML)
 link_directories(/usr/lib/x86_64-linux-gnu)
@@ -22,10 +25,11 @@ set(SOURCES
     src/ui/CharacterImage.cpp
     src/ui/ChoiceUI.cpp
     src/utils/ResourceManager.cpp
+    src/utils/DialogueManager.cpp
 )
 
 # Create the executable
 add_executable(SFMLVisualNovel ${SOURCES})
 
 # Link SFML libraries
-target_link_libraries(SFMLVisualNovel sfml-graphics sfml-window sfml-system sfml-audio)
+target_link_libraries(SFMLVisualNovel sfml-graphics sfml-window sfml-system sfml-audio yaml-cpp)

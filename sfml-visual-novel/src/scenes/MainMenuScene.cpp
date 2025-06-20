@@ -20,7 +20,7 @@ bool MainMenuScene::init() {
     
     // Set up title
     title.setFont(font);
-    title.setString("No You Na");
+    title.setString("Or Something Like It");
     title.setCharacterSize(48);
     title.setFillColor(sf::Color::White);
     
@@ -71,17 +71,17 @@ void MainMenuScene::setupButtons() {
     quitButton.setPosition(centerX, 410);
     
     // Load textures for all buttons with specific styles
-    newGameButton.loadTexture("assets/ButtonsIcons/IconButton_Large_Blue_Rounded.png");
-    loadGameButton.loadTexture("assets/ButtonsIcons/IconButton_Large_Green_Rounded.png");
-    settingsButton.loadTexture("assets/ButtonsIcons/IconButton_Large_Orange_Rounded.png");
-    quitButton.loadTexture("assets/ButtonsIcons/IconButton_Large_Red_Rounded.png");
+    newGameButton.loadTexture("../assets/ButtonsIcons/IconButton_Large_Blue_Rounded.png");
+    loadGameButton.loadTexture("../assets/ButtonsIcons/IconButton_Large_Green_Rounded.png");
+    settingsButton.loadTexture("../assets/ButtonsIcons/IconButton_Large_Orange_Rounded.png");
+    quitButton.loadTexture("../assets/ButtonsIcons/IconButton_Large_Red_Rounded.png");
 }
 
-void MainMenuScene::update(sf::RenderWindow& window, float deltaTime) {
-    // Get mouse position
+void MainMenuScene::update(float deltaTime, sf::RenderWindow& window) {
+    // Get mouse position and convert to world coordinates
     sf::Vector2i mousePos = sf::Mouse::getPosition(window);
-    sf::Vector2f mousePosF(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y));
-    
+    sf::Vector2f mousePosF = window.mapPixelToCoords(mousePos);
+
     // Update button animations with actual deltaTime
     newGameButton.update(deltaTime, mousePosF);
     loadGameButton.update(deltaTime, mousePosF);
@@ -99,22 +99,25 @@ void MainMenuScene::render(sf::RenderWindow& window) {
 }
 
 void MainMenuScene::handleEvent(const sf::Event& event) {
-    if (event.type == sf::Event::MouseButtonPressed) {
-        if (event.mouseButton.button == sf::Mouse::Left) {
-            sf::Vector2f mousePos(static_cast<float>(event.mouseButton.x), 
-                                 static_cast<float>(event.mouseButton.y));
-            
-            if (newGameButton.isClicked(mousePos)) {
-                // New game clicked - handled in main.cpp
-            } else if (loadGameButton.isClicked(mousePos)) {
-                // Load game
-            } else if (settingsButton.isClicked(mousePos)) {
-                // Open settings
-            } else if (quitButton.isClicked(mousePos)) {
-                // Quit clicked - handled in main.cpp
-            }
-        }
+    // Keep basic event handling for non-mouse click events
+    // Mouse click events will now be handled by mouseClickHandle
+}
+
+GameState MainMenuScene::mouseClickHandle(const sf::Vector2f& mousePos, GameState currentState) {
+    if (newGameButton.isClicked(mousePos)) {
+        return GameState::InGame;
+    } else if (loadGameButton.isClicked(mousePos)) {
+        // For now, just return the current state
+        // You can update this when load game functionality is implemented
+        return currentState;
+    } else if (settingsButton.isClicked(mousePos)) {
+        // For now, just return the current state
+        // You can update this when settings functionality is implemented
+        return currentState;
+    } else if (quitButton.isClicked(mousePos)) {
+        return GameState::Quit;
     }
+    return currentState; // No change if no button was clicked
 }
 
 bool MainMenuScene::isNewGameClicked(const sf::Vector2f& mousePos) const {
